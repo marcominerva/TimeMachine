@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MinimalHelpers.OpenApi;
 using TimeMachine.DataAccessLayer;
 using TimeMachine.Models;
 
@@ -9,7 +10,10 @@ builder.Services.AddSqlServer<ApplicationDbContext>(builder.Configuration.GetCon
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddMissingSchemas();
+});
 
 var app = builder.Build();
 
