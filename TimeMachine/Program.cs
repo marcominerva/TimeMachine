@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using MinimalHelpers.OpenApi;
 using TimeMachine.DataAccessLayer;
@@ -6,6 +7,11 @@ using TimeMachine.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 builder.Services.AddSqlServer<ApplicationDbContext>(builder.Configuration.GetConnectionString("SqlConnection"));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -15,10 +21,13 @@ builder.Services.AddSwaggerGen(options =>
     options.AddMissingSchemas();
 });
 
+builder.Services.AddProblemDetails();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
+app.UseStatusCodePages();
 
 if (app.Environment.IsDevelopment())
 {
@@ -37,6 +46,7 @@ app.MapGet("/api/people/{id:guid}", async (Guid id, ApplicationDbContext dbConte
             PhoneNumbers = p.PhoneNumbers.Select(pn => new PhoneNumber
             {
                 Id = pn.Id,
+                Type = pn.Type,
                 Number = pn.Number
             })
         })
