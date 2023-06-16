@@ -35,14 +35,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/api/people/{id:guid}", async (Guid id, ApplicationDbContext dbContext) =>
+app.MapGet("/api/people/{id:guid}", async (Guid id, DateTime? dateTime, ApplicationDbContext dbContext) =>
 {
-    var person = await dbContext.People.Include(p => p.PhoneNumbers)
+    var people = dateTime.HasValue
+        ? dbContext.People.TemporalAsOf(dateTime.Value)
+        : dbContext.People;
+
+    var person = await people
+        .Include(p => p.PhoneNumbers)
         .Select(p => new Person
         {
             Id = p.Id,
             Name = p.Name,
-            City = p.City,
+            City = new()
+            {
+                Id = p.City.Id,
+                Name = p.City.Name
+            },
             PhoneNumbers = p.PhoneNumbers.Select(pn => new PhoneNumber
             {
                 Id = pn.Id,
@@ -60,6 +69,7 @@ app.MapGet("/api/people/{id:guid}", async (Guid id, ApplicationDbContext dbConte
     return Results.Ok(person);
 })
 .Produces<Person>()
+.Produces(StatusCodes.Status404NotFound)
 .WithOpenApi();
 
 app.Run();

@@ -6,7 +6,7 @@ public class Person
 
     public string Name { get; set; }
 
-    public string City { get; set; }
+    public City City { get; set; }
 
     public IEnumerable<PhoneNumber> PhoneNumbers { get; set; }
 }

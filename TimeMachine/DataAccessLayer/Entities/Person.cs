@@ -6,7 +6,9 @@ public class Person
 
     public string Name { get; set; }
 
-    public string City { get; set; }
+    public Guid CityId { get; set; }
+
+    public virtual City City { get; set; }
 
     public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
 }
