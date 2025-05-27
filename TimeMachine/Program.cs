@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
-using MinimalHelpers.OpenApi;
 using TimeMachine.DataAccessLayer;
 using TimeMachine.Models;
 
@@ -16,10 +15,7 @@ builder.Services.AddSqlServer<ApplicationDbContext>(builder.Configuration.GetCon
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddMissingSchemas();
-});
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddProblemDetails();
 
@@ -37,6 +33,10 @@ if (app.Environment.IsDevelopment())
 
 app.MapGet("/api/people/{id:guid}", async (Guid id, DateTime? dateTime, ApplicationDbContext dbContext) =>
 {
+    var query = dbContext.People.TemporalAll()
+        .GroupBy(x => x.Id)
+        .ToQueryString();
+
     var people = dateTime.HasValue
         ? dbContext.People.TemporalAsOf(dateTime.Value)
         : dbContext.People;
