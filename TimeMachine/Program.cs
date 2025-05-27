@@ -33,10 +33,6 @@ if (app.Environment.IsDevelopment())
 
 app.MapGet("/api/people/{id:guid}", async (Guid id, DateTime? dateTime, ApplicationDbContext dbContext) =>
 {
-    var query = dbContext.People.TemporalAll()
-        .GroupBy(x => x.Id)
-        .ToQueryString();
-
     var people = dateTime.HasValue
         ? dbContext.People.TemporalAsOf(dateTime.Value)
         : dbContext.People;
