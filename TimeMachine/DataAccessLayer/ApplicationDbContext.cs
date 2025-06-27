@@ -29,7 +29,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+            builder.Property(x => x.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
             builder.Property(x => x.Name).HasMaxLength(30).IsRequired();
         });
 
@@ -47,7 +47,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+            builder.Property(x => x.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
             builder.Property(x => x.Type).HasConversion<string>().HasMaxLength(20).IsUnicode(false).IsRequired();
             builder.Property(x => x.Number).HasMaxLength(20).IsUnicode(false).IsRequired();
 
@@ -68,7 +68,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+            builder.Property(x => x.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
             builder.Property(x => x.Name).HasMaxLength(50).IsRequired();
 
             builder.HasMany(c => c.People).WithOne(p => p.City).HasForeignKey(nameof(Person.CityId));
