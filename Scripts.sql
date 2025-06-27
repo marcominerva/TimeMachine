@@ -1,8 +1,3 @@
-/****** Object:  Table [dbo].[People]    Script Date: 16/06/2023 16:59:18 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[People](
 	[Id] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](30) NOT NULL,
@@ -21,11 +16,7 @@ WITH
 SYSTEM_VERSIONING = ON (HISTORY_TABLE = [dbo].[PeopleHistory])
 )
 GO
-/****** Object:  Table [dbo].[PhoneNumbers]    Script Date: 16/06/2023 16:59:18 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 CREATE TABLE [dbo].[PhoneNumbers](
 	[Id] [uniqueidentifier] NOT NULL,
 	[PersonId] [uniqueidentifier] NOT NULL,
@@ -44,11 +35,7 @@ WITH
 SYSTEM_VERSIONING = ON (HISTORY_TABLE = [dbo].[PhoneNumbersHistory])
 )
 GO
-/****** Object:  Table [dbo].[Cities]    Script Date: 16/06/2023 16:59:18 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 CREATE TABLE [dbo].[Cities](
 	[ID] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](50) NOT NULL,
@@ -65,6 +52,7 @@ WITH
 SYSTEM_VERSIONING = ON (HISTORY_TABLE = [dbo].[CitiesHistory])
 )
 GO
+
 INSERT [dbo].[Cities] ([ID], [Name], [ValidFrom], [ValidTo]) VALUES (N'00000000-0000-0000-0000-000000000000', N'(unknown)', CAST(N'1900-01-01T00:00:00.0000000' AS DateTime2), CAST(N'9999-12-31T23:59:59.9999999' AS DateTime2))
 GO
 INSERT [dbo].[Cities] ([ID], [Name], [ValidFrom], [ValidTo]) VALUES (N'1b5bb889-17d4-4784-ad24-3250b73c8621', N'Duckburg', CAST(N'1900-01-01T00:00:00.0000000' AS DateTime2), CAST(N'9999-12-31T23:59:59.9999999' AS DateTime2))

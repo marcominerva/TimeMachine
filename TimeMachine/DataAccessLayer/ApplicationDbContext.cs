@@ -3,17 +3,13 @@ using TimeMachine.DataAccessLayer.Entities;
 
 namespace TimeMachine.DataAccessLayer;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
 {
     public DbSet<Person> People { get; set; }
 
     public DbSet<PhoneNumber> PhoneNumbers { get; set; }
 
     public DbSet<City> Cities { get; set; }
-
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-    {
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
